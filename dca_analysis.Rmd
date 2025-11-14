@@ -1,0 +1,75 @@
+---
+title: "Disney California Adventure Ride Wait Time Analysis"
+author: "Verity Boyd"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r load_packages, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(dplyr)
+```
+
+### Disney California Wait Time dataset from [Tivory21](https://www.kaggle.com/datasets/tivory27/disney-california-adventure-wait-times) on Kaggle.
+
+## Hypothetical Scenario
+Walt Disney Imagineering are planning to build a new attraction in the Disney California Adventure park. To ease congestion and balance wait times for other attractions throughout the park, they want to place the new ride in a low-foot traffic area. As a Junior Data Analyst, I will analyse the wait time data for the current attractions throughout the park and present my recommendations for the new ride location in this report. 
+
+## Assumptions
+* The dataset includes data from 2024-07-08 to 2025-06-11 inclusively. For a real report, I would ideally have a wider range of dates. 
+* Rides that are open seasonally will be ignored. (maybe)
+
+
+## Tools Used
+* Microsoft Excel
+* R in RStudio
+* Tableau
+
+## Business Task
+Recommend several best-suited locations within Disney California Adventure park for a new attraction. The new location should improve guest flow by being near rides with low wait times in less-visited areas of the park. 
+
+## Import the Data
+```{r import}
+wait_times <- read.csv("disney_wait_times.csv")
+```
+
+## Clean the Data
+* Use clean_names function from the janitor package to clean the column names.
+```{r clean_names}
+clean_wait_times <- clean_names(wait_times)
+```
+* Use dplyr package to change the data type of the local_time column to datetime.
+```{r time}
+clean_wait_times <- clean_wait_times %>%
+  mutate(local_time = with_tz(ymd_hms(local_time, tz = "UTC"), "America/Los_Angeles"))
+```
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
